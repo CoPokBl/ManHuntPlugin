@@ -1,0 +1,6 @@
+hunters:
+  - CoPokBl
+  - someoneelse
+hunterRespawnTime: 60
+speedrunnerRespawnTime: 120
+speedrunnersRespawn: true
