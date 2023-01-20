@@ -73,21 +73,20 @@ public class Hunters implements Listener {
         if (!e.getItem().getType().equals(Material.COMPASS)) return;
 
         Object[] people = Bukkit.getOnlinePlayers().toArray();
-        List<String> hunters = new ArrayList<>();
+        List<Player> speedrunners = new ArrayList<>();
         for (Object p : people) {
             if (Main.plugin.getConfig().getStringList("hunters").contains(((Player)p).getName())) {
                 continue;
             }
-            hunters.add(((Player)p).getName());
+            speedrunners.add((Player) p);
         }
 
         List<Player> available = new ArrayList<>();
-        for (String p : hunters) {
-            if (dead.contains(p)) continue;
-            Player player = Bukkit.getPlayer(p);
-            if (player == null) continue;
-            if (player.getWorld() != e.getPlayer().getWorld()) continue;
-            available.add(player);
+        for (Player p : speedrunners) {
+            if (dead.contains(p.getName())) continue;
+            if (p.getGameMode() != GameMode.SURVIVAL) continue;
+            if (p.getWorld() != e.getPlayer().getWorld()) continue;
+            available.add(p);
         }
         if (available.size() == 0) {
             e.getPlayer().sendMessage(ChatColor.RED + "No players are available to track!");
@@ -95,7 +94,7 @@ public class Hunters implements Listener {
         }
 
         Random ran = new Random();
-        Player target = available.get(ran.nextInt(hunters.size()));
+        Player target = available.get(ran.nextInt(speedrunners.size()));
 
         e.getPlayer().setCompassTarget(target.getLocation());
         e.getPlayer().sendMessage(ChatColor.GREEN + "Set compass target to " + target.getName());
